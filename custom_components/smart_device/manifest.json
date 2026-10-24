@@ -1,0 +1,12 @@
+{
+  "domain": "smart_device",
+  "name": "闪优物联",
+  "version": "1.1.0",
+  "documentation": "https://github.com/mahaoxiong/smart_device",
+  "issue_tracker": "https://github.com/mahaoxiong/smart_device/issues",
+  "codeowners": [],
+  "config_flow": true,
+  "iot_class": "cloud_polling",
+  "integration_type": "device",
+  "loggers": ["custom_components.smart_device"]
+}

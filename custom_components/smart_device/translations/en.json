@@ -1,0 +1,44 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Smyoo account",
+        "description": "Sign in with the phone number registered in the Smyoo app.",
+        "data": {
+          "username": "Phone number",
+          "password": "Password"
+        }
+      },
+      "select_device": {
+        "title": "Select device",
+        "description": "Choose the device to add to Home Assistant.",
+        "data": {
+          "device_id": "Device"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Failed to reach the Smyoo cloud.",
+      "invalid_auth": "Invalid phone number or password.",
+      "unknown": "Unexpected error, check the logs.",
+      "device_offline": "The device is offline."
+    },
+    "abort": {
+      "already_configured": "This device is already configured.",
+      "no_devices": "No devices were found on this account."
+    }
+  },
+  "entity": {
+    "sensor": {
+      "user_id": {
+        "name": "User ID"
+      },
+      "device_id": {
+        "name": "Device ID"
+      },
+      "last_update": {
+        "name": "Last update"
+      }
+    }
+  }
+}

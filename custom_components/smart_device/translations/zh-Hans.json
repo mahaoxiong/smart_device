@@ -1,0 +1,44 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "闪优物联账号",
+        "description": "请输入闪优物联 App 中注册的手机号。",
+        "data": {
+          "username": "手机号",
+          "password": "密码"
+        }
+      },
+      "select_device": {
+        "title": "选择设备",
+        "description": "选择要接入 Home Assistant 的设备。",
+        "data": {
+          "device_id": "设备"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "无法连接闪优物联云端。",
+      "invalid_auth": "手机号或密码不正确。",
+      "unknown": "发生未知错误，请查看日志。",
+      "device_offline": "设备当前离线。"
+    },
+    "abort": {
+      "already_configured": "该设备已配置。",
+      "no_devices": "该账号下没有可用设备。"
+    }
+  },
+  "entity": {
+    "sensor": {
+      "user_id": {
+        "name": "用户 ID"
+      },
+      "device_id": {
+        "name": "设备 ID"
+      },
+      "last_update": {
+        "name": "最后更新"
+      }
+    }
+  }
+}

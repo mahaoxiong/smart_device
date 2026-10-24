@@ -1,0 +1,10 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.DS_Store
+
+# 本地工具与备份，不随仓库发布
+_legacy/
+.workbuddy-ai/
