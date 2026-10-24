@@ -4,9 +4,19 @@
 
 ## 安装
 
-1. 将 `custom_components/smart_device` 整个目录复制到 HA 配置目录下的 `custom_components/`
+### HACS（推荐）
+
+1. HACS → 右上角三个点 → **自定义存储库**
+2. 填入 `https://github.com/mahaoxiong/smart_device`，类别选 **Integration**，点「添加」
+3. 在 HACS 的「集成」页搜索「闪优物联」并下载
+4. 重启 Home Assistant
+
+### 手动安装
+
+1. 下载本仓库，把 `custom_components/smart_device` 整个目录复制到 HA 配置目录下的 `custom_components/`
 2. 重启 Home Assistant
-3. **设置 → 设备与服务 → 添加集成**，搜索「闪优物联」
+
+安装完成后进入 **设置 → 设备与服务 → 添加集成**，搜索「闪优物联」。
 
 > 不再支持 `configuration.yaml` 配置。旧版 yaml 写法请改用界面添加。
 
