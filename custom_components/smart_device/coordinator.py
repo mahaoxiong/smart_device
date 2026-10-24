@@ -12,7 +12,7 @@ from homeassistant.helpers.update_coordinator import (
 )
 from homeassistant.util import dt as dt_util
 
-from .api import CannotConnect, SmartDeviceAPI
+from .api import CannotConnect, InvalidAuth, SmartDeviceAPI
 from .const import (
     DEVICE_STATUS_OFF,
     DEVICE_STATUS_ON,
@@ -51,6 +51,10 @@ class SmartDeviceCoordinator(DataUpdateCoordinator[bool]):
         """拉取一次设备状态。"""
         try:
             status = await self.api.async_get_device_status(self.device_id)
+        except InvalidAuth as err:
+            # 凭据在运行期失效（改密、封号），主动拉起重新认证。
+            self.async_start_reauth()
+            raise UpdateFailed(f"认证已失效: {err}") from err
         except CannotConnect as err:
             raise UpdateFailed(f"获取设备状态失败: {err}") from err
 
@@ -70,3 +74,8 @@ class SmartDeviceCoordinator(DataUpdateCoordinator[bool]):
         下一轮轮询会用云端真实状态覆盖它。
         """
         self.async_set_updated_data(turn_on)
+
+    def async_start_reauth(self) -> None:
+        """通知 Home Assistant 该条目需要重新认证。"""
+        if self.config_entry is not None:
+            self.config_entry.async_start_reauth(self.hass)

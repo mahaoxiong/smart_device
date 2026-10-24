@@ -13,7 +13,7 @@ from homeassistant.core import HomeAssistant
 from homeassistant.exceptions import HomeAssistantError
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
-from .api import CannotConnect
+from .api import CannotConnect, InvalidAuth
 from .const import (
     DEVICE_STATUS_OFF,
     DEVICE_STATUS_ON,
@@ -89,6 +89,9 @@ class SmartDeviceSwitch(SmartDeviceEntity, SwitchEntity):
 
         try:
             await self.coordinator.api.async_control_device(self._device_id, target)
+        except InvalidAuth as err:
+            self.coordinator.async_start_reauth()
+            raise HomeAssistantError(f"认证已失效，请重新认证: {err}") from err
         except CannotConnect as err:
             raise HomeAssistantError(f"{action}失败: {err}") from err
 
@@ -112,7 +115,7 @@ class SmartDeviceSwitch(SmartDeviceEntity, SwitchEntity):
                         status = await self.coordinator.api.async_get_device_status(
                             self._device_id
                         )
-                    except CannotConnect as err:
+                    except (CannotConnect, InvalidAuth) as err:
                         _LOGGER.debug(
                             "第 %d 次状态确认失败: %s", attempt, err
                         )
