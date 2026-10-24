@@ -1,7 +1,7 @@
 {
   "domain": "smart_device",
   "name": "闪优物联",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "documentation": "https://github.com/mahaoxiong/smart_device",
   "issue_tracker": "https://github.com/mahaoxiong/smart_device/issues",
   "codeowners": ["@mahaoxiong"],
