@@ -14,7 +14,6 @@ from __future__ import annotations
 import asyncio
 import json
 import logging
-import time
 from typing import Any
 
 import aiohttp
@@ -31,7 +30,6 @@ from .const import (
     DEFAULT_TIMEOUT,
     MAX_RETRY_COUNT,
     SESSION_EXPIRED_CODE,
-    STATUS_CACHE_TTL,
     SUCCESS_CODE,
 )
 
@@ -72,7 +70,6 @@ class SmartDeviceAPI:
 
         self._app_id = APP_ID
         self._login_lock = asyncio.Lock()
-        self._status_cache: dict[str, tuple[float, dict[str, Any]]] = {}
 
         self.token: str | None = None
         self.user_id: str | None = None
@@ -261,26 +258,16 @@ class SmartDeviceAPI:
         return devices
 
     async def async_get_device_status(
-        self,
-        device_id: str,
-        *,
-        force_refresh: bool = False,
+        self, device_id: str
     ) -> dict[str, Any] | None:
         """获取设备状态数据点。
 
         Args:
             device_id: 设备 mcuid。
-            force_refresh: 跳过缓存。开关操作后的确认流程必须为 True，
-                否则会读到操作前的旧状态。
 
         Returns:
             解析后的 datapoint 字典；设备无响应或格式异常时返回 None。
         """
-        if not force_refresh:
-            cached = self._status_cache.get(device_id)
-            if cached is not None and time.monotonic() - cached[0] < STATUS_CACHE_TTL:
-                return cached[1]
-
         payload = {"mcuid": device_id, "appId": self._app_id}
         data = await self._async_call_api(API_DEVICE_STATUS_URL, payload)
 
@@ -300,7 +287,6 @@ class SmartDeviceAPI:
             _LOGGER.warning("设备 %s 状态格式异常: %s", device_id, datapoint)
             return None
 
-        self._status_cache[device_id] = (time.monotonic(), datapoint)
         return datapoint
 
     async def async_control_device(self, device_id: str, status: int) -> None:
@@ -318,9 +304,3 @@ class SmartDeviceAPI:
         }
 
         await self._async_call_api(API_DEVICE_CONTROL_URL, payload)
-        # 指令已下发，缓存里的状态必然过期。
-        self._status_cache.pop(device_id, None)
-
-    def clear_cache(self) -> None:
-        """清空状态缓存。"""
-        self._status_cache.clear()

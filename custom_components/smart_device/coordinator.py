@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import logging
 from datetime import datetime
-from typing import Any
 
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.update_coordinator import (
@@ -46,7 +45,6 @@ class SmartDeviceCoordinator(DataUpdateCoordinator[bool]):
         )
         self.api = api
         self.device_id = device_id
-        self.device_status: dict[str, Any] = {}
         self.last_success_time: datetime | None = None
 
     async def _async_update_data(self) -> bool:
@@ -63,7 +61,6 @@ class SmartDeviceCoordinator(DataUpdateCoordinator[bool]):
         if value not in (DEVICE_STATUS_ON, DEVICE_STATUS_OFF):
             raise UpdateFailed(f"设备返回了未知状态值: {value!r}")
 
-        self.device_status = status
         self.last_success_time = dt_util.utcnow()
         return value == DEVICE_STATUS_ON
 
@@ -72,8 +69,4 @@ class SmartDeviceCoordinator(DataUpdateCoordinator[bool]):
 
         下一轮轮询会用云端真实状态覆盖它。
         """
-        self.device_status = {
-            **self.device_status,
-            "status": DEVICE_STATUS_ON if turn_on else DEVICE_STATUS_OFF,
-        }
         self.async_set_updated_data(turn_on)

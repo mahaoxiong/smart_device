@@ -25,7 +25,6 @@ API_DEVICE_CONTROL_URL: Final = "http://api.hjy1314.3uyun.com/api/gfriend/setdev
 # 轮询与超时
 UPDATE_INTERVAL: Final = timedelta(seconds=30)
 DEFAULT_TIMEOUT: Final = 10
-STATUS_CACHE_TTL: Final = 5
 
 # 开关操作后的状态确认
 STATE_CHECK_RETRIES: Final = 5

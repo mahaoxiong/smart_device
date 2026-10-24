@@ -26,6 +26,12 @@
 
 登录后集成会拉取该账号下的设备列表，选择其中一个即可。**一个设备对应一个配置条目**，多设备请重复添加。
 
+手机号支持 `13800138000`、`+86-13800138000`、`+8613800138000`、`8613800138000` 等写法，集成会自动规范化。
+
+### 修改密码
+
+密码在闪优物联侧变更后，Home Assistant 会在「设置 → 设备与服务」提示需要重新认证。点「重新认证」输入新密码即可，无需删除集成重加。
+
 ## 实体
 
 | 实体 | 类型 | 说明 |
@@ -70,14 +76,20 @@ custom_components/smart_device/
 ├── coordinator.py    # 状态轮询
 ├── entity.py         # 实体基类
 ├── runtime.py        # 运行时对象容器
-├── config_flow.py    # 配置流程
+├── config_flow.py    # 配置流程与重新认证
 ├── switch.py         # 开关平台
 ├── sensor.py         # 诊断传感器
 ├── manifest.json
 ├── strings.json
+├── brand/
+│   └── icon.png
 └── translations/
 ```
 
-## 维护提示
+## 许可证
+
+本项目基于 [MIT 许可证](LICENSE) 发布。
+
+---
 
 `manifest.json` 中的 `documentation` 与 `issue_tracker` 指向 `mahaoxiong/smart_device`，仓库迁移时需同步修改。

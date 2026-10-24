@@ -36,6 +36,7 @@ class SmartDeviceSensorDescription(SensorEntityDescription):
     """附带取值函数的传感器描述。"""
 
     value_fn: Callable[[SmartDeviceCoordinator], str | datetime | None]
+    always_available: bool = False
 
 
 SENSORS: tuple[SmartDeviceSensorDescription, ...] = (
@@ -44,6 +45,7 @@ SENSORS: tuple[SmartDeviceSensorDescription, ...] = (
         translation_key="user_id",
         icon="mdi:account",
         entity_category=EntityCategory.DIAGNOSTIC,
+        always_available=True,
         value_fn=lambda coordinator: coordinator.api.user_id,
     ),
     SmartDeviceSensorDescription(
@@ -51,6 +53,7 @@ SENSORS: tuple[SmartDeviceSensorDescription, ...] = (
         translation_key="device_id",
         icon="mdi:devices",
         entity_category=EntityCategory.DIAGNOSTIC,
+        always_available=True,
         value_fn=lambda coordinator: coordinator.device_id,
     ),
     SmartDeviceSensorDescription(
@@ -98,6 +101,13 @@ class SmartDeviceSensor(SmartDeviceEntity, SensorEntity):
         super().__init__(coordinator, device_id, device_name)
         self.entity_description = description
         self._attr_unique_id = f"{DOMAIN}_{device_id}_{description.key}"
+
+    @property
+    def available(self) -> bool:
+        """静态诊断信息在设备离线时也应保持可读。"""
+        if self.entity_description.always_available:
+            return True
+        return super().available
 
     @property
     def native_value(self) -> str | datetime | None:

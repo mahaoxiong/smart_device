@@ -110,7 +110,7 @@ class SmartDeviceSwitch(SmartDeviceEntity, SwitchEntity):
 
                     try:
                         status = await self.coordinator.api.async_get_device_status(
-                            self._device_id, force_refresh=True
+                            self._device_id
                         )
                     except CannotConnect as err:
                         _LOGGER.debug(
@@ -122,7 +122,6 @@ class SmartDeviceSwitch(SmartDeviceEntity, SwitchEntity):
                         continue
 
                     if status.get("status") == expected:
-                        self.coordinator.device_status = status
                         self.coordinator.async_set_updated_data(expected_on)
                         _LOGGER.debug(
                             "设备 %s 已确认%s",

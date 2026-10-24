@@ -15,17 +15,27 @@
         "data": {
           "device_id": "设备"
         }
+      },
+      "reauth_confirm": {
+        "title": "重新认证",
+        "description": "保存的凭据已失效，请重新输入密码。",
+        "data": {
+          "username": "手机号",
+          "password": "密码"
+        }
       }
     },
     "error": {
       "cannot_connect": "无法连接闪优物联云端。",
       "invalid_auth": "手机号或密码不正确。",
+      "invalid_phone": "请输入 11 位手机号。",
       "unknown": "发生未知错误，请查看日志。",
       "device_offline": "设备当前离线。"
     },
     "abort": {
       "already_configured": "该设备已配置。",
-      "no_devices": "该账号下没有可用设备。"
+      "no_devices": "该账号下没有可用设备。",
+      "reauth_successful": "重新认证成功。"
     }
   },
   "entity": {

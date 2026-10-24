@@ -15,17 +15,27 @@
         "data": {
           "device_id": "Device"
         }
+      },
+      "reauth_confirm": {
+        "title": "Reauthenticate",
+        "description": "The stored credentials are no longer valid. Enter your password again.",
+        "data": {
+          "username": "Phone number",
+          "password": "Password"
+        }
       }
     },
     "error": {
       "cannot_connect": "Failed to reach the Smyoo cloud.",
       "invalid_auth": "Invalid phone number or password.",
+      "invalid_phone": "Enter a valid 11-digit phone number.",
       "unknown": "Unexpected error, check the logs.",
       "device_offline": "The device is offline."
     },
     "abort": {
       "already_configured": "This device is already configured.",
-      "no_devices": "No devices were found on this account."
+      "no_devices": "No devices were found on this account.",
+      "reauth_successful": "Reauthentication successful."
     }
   },
   "entity": {
